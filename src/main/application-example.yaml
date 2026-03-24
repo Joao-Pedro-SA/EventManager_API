@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+aws:
+  region: ${AWS_REGION}
+  bucket:
+    name: ${AWS_BUCKET_NAME}
