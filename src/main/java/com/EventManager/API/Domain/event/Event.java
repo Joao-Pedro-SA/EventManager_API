@@ -1,15 +1,15 @@
 package com.EventManager.API.Domain.event;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.EventManager.API.Domain.address.Address;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Table(name = "event")
@@ -34,7 +34,13 @@ public class Event {
 
     private Boolean remote;
 
-    private Date date;
+    private LocalDateTime date;
 
+    private String city;
+
+    private String state;
+
+    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
+    private Address addresses;
 
 }
