@@ -143,6 +143,29 @@ Este projeto foi desenvolvido com foco em:
 * Boas práticas de arquitetura em camadas
 * Controle de versão de banco de dados com Flyway
 
+
+---
+
+## ☁️ Uso da AWS e Otimização de Custos
+
+Este projeto foi inicialmente implantado utilizando serviços da Amazon Web Services, incluindo:
+
+* EC2 para execução da aplicação 
+* RDS (PostgreSQL) para banco de dados 
+* S3 para armazenamento de imagens
+
+Atualmente, os recursos de EC2 e RDS foram pausados/removidos temporariamente, com a criação de snapshots do banco de dados, com o objetivo de:
+
+* Otimizar o uso de créditos da AWS.
+* Permitir o estudo de outros serviços da plataforma. 
+* Reduzir custos desnecessários de recursos em execução contínua.
+
+A aplicação pode ser executada localmente utilizando:
+
+Banco H2 (já configurado) ou PostgreSQL local.
+
+Os recursos podem ser restaurados a qualquer momento a partir dos snapshots.
+
 ---
 
 ## 👨‍💻 Autor
