@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -45,13 +44,14 @@ public class EventService {
 
 
     public Event createEvent(EventRequestDTO data){
+        Event newEvent = new Event();
         String imgUrl = null;
+        validateEvent(data);
 
         if(data.image() != null){
             imgUrl = this.uploadImg(data.image());
         }
 
-        Event newEvent = new Event();
         newEvent.setTitle(data.title());
         newEvent.setDescription(data.description());
         newEvent.setEventURL(data.eventUrl());
@@ -60,7 +60,6 @@ public class EventService {
         newEvent.setState(data.state());
         newEvent.setImgURL(imgUrl);
         newEvent.setRemote(data.remote());
-        System.out.println("URL da imagem: " + imgUrl);
         repository.save(newEvent);
 
         if (!newEvent.getRemote()){
@@ -153,6 +152,18 @@ public class EventService {
         fos.write(multipartFile.getBytes());
         fos.close();
         return convFile;
+    }
+
+    private void validateEvent(EventRequestDTO data){
+        if (data.title() == null || data.title().isBlank()){
+            throw new IllegalArgumentException("Titulo é obrigatório.");
+        }
+        if (data.description() == null || data.description().isBlank()){
+            throw new IllegalArgumentException("Descrição é obrigatório.");
+        }
+        if (data.date() == null || data.date().isBefore(LocalDateTime.now())){
+            throw new IllegalArgumentException("Data invalida.");
+        }
     }
 
 }
