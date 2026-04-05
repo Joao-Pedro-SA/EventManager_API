@@ -24,16 +24,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 class EventServiceTest {
 
 
-    @Mock
-    private AmazonS3 s3Client;
 
     @Mock
     private AddressService addressService;
@@ -70,6 +67,50 @@ class EventServiceTest {
         Mockito.verify(repository).save(any(Event.class));
 
     }
+
+    @Test
+    void createEvent_case_WhenTitleisNull() {
+
+        LocalDateTime now = LocalDateTime.now().plusDays(10);
+        EventRequestDTO data = new EventRequestDTO(null,
+                "Event service teste",now,"São Paulo",
+                "SP", false, null,null );
+
+        assertThrows(IllegalArgumentException.class, () -> {service.createEvent(data);});
+
+        Mockito.verify(repository, Mockito.never()).save(any());
+
+    }
+
+    @Test
+    void createEvent_case_WhenDescriptionisNull() {
+
+        LocalDateTime now = LocalDateTime.now().plusDays(10);
+        EventRequestDTO data = new EventRequestDTO("Teste",
+                null,now,"São Paulo",
+                "SP", false, null,null );
+
+        assertThrows(IllegalArgumentException.class, () -> {service.createEvent(data);});
+
+        Mockito.verify(repository, Mockito.never()).save(any());
+
+    }
+
+    @Test
+    void createEvent_case_WhenDataisNull() {
+
+        LocalDateTime now = LocalDateTime.now().plusDays(10);
+        EventRequestDTO data = new EventRequestDTO("Teste",
+                "Teste",null,"São Paulo",
+                "SP", false, null,null );
+
+        assertThrows(IllegalArgumentException.class, () -> {service.createEvent(data);});
+
+        Mockito.verify(repository, Mockito.never()).save(any());
+
+    }
+
+
 
     @Test
     void getUpcomingEvents() {
