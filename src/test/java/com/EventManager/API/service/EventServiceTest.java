@@ -153,6 +153,25 @@ class EventServiceTest {
     }
 
     @Test
+    void getUpcomingEvents_Case_WhentEventNotExists() {
+        int page =0;
+        int size = 5;
+
+        List<EventResponseDTO> listResponse;
+
+        Mockito.when(repository.findUpcomingEvents(any(LocalDateTime.class),any(Pageable.class)))
+                .thenReturn(Page.empty());
+
+        listResponse = service.getUpcomingEvents(page, size);
+
+        assertNotNull(listResponse);
+        assertTrue(listResponse.isEmpty());
+
+        Mockito.verify(repository).findUpcomingEvents(Mockito.any(LocalDateTime.class),any(Pageable.class));
+
+    }
+
+    @Test
     void getEventDetails() {
         UUID eventId = UUID.randomUUID();
         Event event = new Event();
